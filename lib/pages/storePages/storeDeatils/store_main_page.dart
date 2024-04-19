@@ -33,7 +33,7 @@ class _StorePageState extends State<StorePage> {
           );
         } else {
           return SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+            // physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
                 Container(

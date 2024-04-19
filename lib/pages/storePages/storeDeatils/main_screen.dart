@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -44,58 +45,47 @@ class _MainScreenPageState extends State<MainScreenPage>
       length: 3,
       initialIndex: 0,
       child: Scaffold(
+        extendBody: true,
         appBar: AppBar(
           leading: const Icon(Icons.arrow_back_ios_new),
-          actions: _buildActionsForTab(selectedIndex),
-          title: _buildTitleForTab(selectedIndex),
+          actions: appBarActionBar(selectedIndex),
+          title: appBarTitle(selectedIndex),
           centerTitle: true,
         ),
-        body: Stack(
-          children: [
-            TabBarView(controller: controller, children: const [
-              StorePage(),
-              Center(child: Text("My Order")),
-              ProfilePage(),
-            ]),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: ClipRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-                  child: Container(
-                    color: const Color(0xffF0F6EE).withOpacity(.94),
-                    child: TabBar(
-                      controller: controller,
-                      indicatorColor: Colors.green,
-                      labelColor: Colors.green,
-                      tabs: const [
-                        Tab(
-                          icon: Icon(Icons.home),
-                          text: 'Store',
-                        ),
-                        Tab(
-                          icon: Icon(Icons.list_alt_outlined),
-                          text: 'My Order',
-                        ),
-                        Tab(
-                          icon: Icon(Icons.person),
-                          text: 'Profile',
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+        body: TabBarView(controller: controller, children: const [
+          StorePage(),
+          Center(child: Text("My Order")),
+          ProfilePage(),
+        ]),
+        bottomNavigationBar: BottomAppBar(
+          padding: EdgeInsets.zero,
+          shape: const CircularNotchedRectangle(),
+          color: const Color(0xffF0F6EE).withOpacity(.94),
+          child: TabBar(
+            controller: controller,
+            indicatorColor: Colors.green,
+            labelColor: Colors.green,
+            tabs: const [
+              Tab(
+                icon: Icon(Icons.home),
+                text: 'Store',
               ),
-            ),
-          ],
+              Tab(
+                icon: Icon(Icons.list_alt_outlined),
+                text: 'My Order',
+              ),
+              Tab(
+                icon: Icon(Icons.person),
+                text: 'Profile',
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  List<Widget> _buildActionsForTab(int index) {
+  List<Widget> appBarActionBar(int index) {
     if (index == 0) {
       return [
         Padding(
@@ -146,7 +136,7 @@ class _MainScreenPageState extends State<MainScreenPage>
     }
   }
 
-  Widget _buildTitleForTab(int index) {
+  Widget appBarTitle(int index) {
     if (index == 0) {
       return const Text(
         "Huge Basket",

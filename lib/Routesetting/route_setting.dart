@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_27_03/pages/loginscreens/ProfilePage/edit_address.dart';
 
 import '../Screen/get_started.dart';
 import '../pages/loginscreens/add_details_page.dart';
@@ -24,6 +25,9 @@ class RouteManager {
       case '/storeProductDetail':
         return MaterialPageRoute(
             builder: (_) => const StoreProductDetail(), settings: settings);
+      case '/edit_user_address':
+        return MaterialPageRoute(
+            builder: (_) => const EditUserAddress(), settings: settings);
       case '/storeDetailpage':
         return MaterialPageRoute(
             builder: (_) => const StoreDetailPage(), settings: settings);

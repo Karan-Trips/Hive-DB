@@ -7,31 +7,75 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_27_03/Model/widetsClass/elevatedbutton/elevated_button_class.dart';
 import 'package:task_27_03/Model/widetsClass/textFormFeild/textformfield.dart';
 
-class UserAddressDetails extends StatefulWidget {
-  const UserAddressDetails({super.key});
+class EditUserAddress extends StatefulWidget {
+  const EditUserAddress({super.key});
 
   @override
-  State<UserAddressDetails> createState() => _UserAddressDetailsState();
+  State<EditUserAddress> createState() => _EditUserAddressState();
 }
 
-class _UserAddressDetailsState extends State<UserAddressDetails> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class _EditUserAddressState extends State<EditUserAddress> {
+  late int addressindex;
   @override
   void dispose() {
     super.dispose();
   }
 
   GlobalKey<FormState> addressformkey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      getAddressIndex();
+    });
+
+    super.initState();
+  }
+
   final address = TextEditingController();
   final unitno = TextEditingController();
   final city = TextEditingController();
   final state = TextEditingController();
   final zipcode = TextEditingController();
   final deliveryInst = TextEditingController();
+  void getAddressIndex() {
+    var data = ModalRoute.of(context)!.settings.arguments;
+    if (data is int) {
+      setState(() {
+        addressindex = data;
+      });
+      getUserAddresses();
+    } else {
+      debugPrint("something went worng");
+    }
+  }
+
+  Future getUserAddresses() async {
+    var box = await Hive.openBox('users_address');
+
+    String? token = await _getToken();
+    List<dynamic>? addresses = await box.get(token);
+    if (addresses != null) {
+      List<Map<dynamic, dynamic>> convertedAddresses =
+          addresses.cast<Map<dynamic, dynamic>>().toList();
+      setState(() {
+        address.text = convertedAddresses[addressindex]['address'] ?? '';
+        unitno.text = convertedAddresses[addressindex]['unit'] ?? '';
+        city.text = convertedAddresses[addressindex]['city'] ?? '';
+        state.text = convertedAddresses[addressindex]['state'] ?? '';
+        zipcode.text = convertedAddresses[addressindex]['zipcode'] ?? '';
+        deliveryInst.text =
+            convertedAddresses[addressindex]['instruction'] ?? '';
+      });
+    } else {
+      return null;
+    }
+  }
+
+  Future<String?> _getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('phoneno');
+  }
+
   @override
   Widget build(BuildContext context) {
     return _buildAddressForm(context);
@@ -44,7 +88,7 @@ class _UserAddressDetailsState extends State<UserAddressDetails> {
             onTap: () => Navigator.pop(context),
             child: const Icon(Icons.arrow_back_ios_new_outlined)),
         title: const Text(
-          "Add New Address",
+          "Edit Address",
           style: TextStyle(
               color: Colors.green, fontSize: 18, fontWeight: FontWeight.bold),
         ),
@@ -122,7 +166,7 @@ class _UserAddressDetailsState extends State<UserAddressDetails> {
                     txt: "Add",
                     onPressed: () {
                       if (addressformkey.currentState!.validate()) {
-                        _saveAddressDetails();
+                        // _saveAddressDetails();
                       }
                     },
                   ),
@@ -133,35 +177,5 @@ class _UserAddressDetailsState extends State<UserAddressDetails> {
         ),
       ),
     );
-  }
-
-  void _saveAddressDetails() async {
-    SharedPreferences prif = await SharedPreferences.getInstance();
-    var phoneno = prif.getString('phoneno');
-
-    if (phoneno != null) {
-      var box = await Hive.openBox('users_address');
-      List<Map<dynamic, dynamic>>? userAddresses =
-          box.get(phoneno)?.cast<Map<dynamic, dynamic>>();
-
-      userAddresses = userAddresses ?? [];
-
-      userAddresses.add({
-        'address': address.text,
-        'unit': unitno.text,
-        'city': city.text,
-        'state': state.text,
-        'zipcode': zipcode.text,
-        'instruction': deliveryInst.text,
-      });
-
-      box.put(phoneno, userAddresses);
-    }
-    var snackBar = const SnackBar(
-        backgroundColor: Colors.red, content: Text('Details Add'));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-    Navigator.pop(context);
-    Navigator.pop(context);
   }
 }

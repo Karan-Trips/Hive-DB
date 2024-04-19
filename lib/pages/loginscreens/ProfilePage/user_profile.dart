@@ -2,9 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:task_27_03/pages/loginscreens/ProfilePage/add_address.dart';
 import 'package:task_27_03/pages/loginscreens/ProfilePage/manage_address.dart';
 import 'package:task_27_03/pages/loginscreens/ProfilePage/notification.dart';
 
@@ -61,53 +59,44 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisSpacing: 10, crossAxisSpacing: 10, crossAxisCount: 2),
             itemBuilder: (context, index) {
               final icon = icons[index];
-              return InkWell(
-                onTap: () async {
-                  if (icon.keys.first == "Log-Out") {
-                    SharedPreferences preferences =
-                        await SharedPreferences.getInstance();
-                    await preferences.remove('phoneno');
-                    Navigator.popAndPushNamed(context, '/mobilelogin');
-                  } else if (icon.keys.first == "Manage Address") {
-                    final bool isAddressAvailable =
-                        Hive.box('user_address').isNotEmpty;
-                    if (isAddressAvailable) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const UserAddressDetails(),
-                        ),
-                      );
-                    } else {
+              return Material(
+                child: InkWell(
+                  onTap: () async {
+                    if (icon.keys.first == "Log-Out") {
+                      SharedPreferences preferences =
+                          await SharedPreferences.getInstance();
+                      await preferences.remove('phoneno');
+                      Navigator.popAndPushNamed(context, '/mobilelogin');
+                    } else if (icon.keys.first == "Manage Address") {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const ManageAddressPage(),
                         ),
                       );
+                    } else if (icon.keys.first == "Notification") {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const NotificationPage(),
+                          ));
                     }
-                  } else if (icon.keys.first == "Notification") {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const NotificationPage(),
-                        ));
-                  }
-                },
-                child: Container(
-                  padding: EdgeInsets.only(
-                      left: 20.w, top: 20.h, bottom: 20.h, right: 20.w),
-                  decoration: BoxDecoration(
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(20.w),
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
                       color: const Color(0xFFFFFFFF),
                       boxShadow: [
                         BoxShadow(
-                            blurRadius: 10.r,
-                            color: const Color.fromRGBO(0, 0, 0, 0.08),
-                            offset: const Offset(0, 0),
-                            spreadRadius: 0.5),
-                      ]),
-                  child: Column(
+                          blurRadius: 10.r,
+                          color: const Color.fromRGBO(0, 0, 0, 0.08),
+                          offset: const Offset(0, 0),
+                          spreadRadius: 0.5,
+                        ),
+                      ],
+                    ),
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -116,17 +105,19 @@ class _ProfilePageState extends State<ProfilePage> {
                           size: 50.w,
                           color: const Color(0xFF44B12C),
                         ),
-                        //  15  .verticalSpace,
                         Text(
                           icon.keys.first,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.sp,
-                              color: const Color(0xFF1E2231)),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.sp,
+                            color: const Color(0xFF1E2231),
+                          ),
                         )
-                      ]),
+                      ],
+                    ),
+                  ),
                 ),
               );
             }),

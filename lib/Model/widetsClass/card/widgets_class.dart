@@ -21,7 +21,7 @@ class _HomeCardCustomState extends State<HomeCardCustom> {
   @override
   void initState() {
     super.initState();
-    loading = Future.delayed(const Duration(seconds: 3), () {
+    loading = Future.delayed(const Duration(seconds: 0), () {
       setState(() {
         _isLoading = false;
       });
