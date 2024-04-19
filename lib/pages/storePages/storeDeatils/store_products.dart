@@ -300,7 +300,7 @@ class _StoreProductDetailState extends State<StoreProductDetail> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const Text("20 mg")
+                        Text("${item.quantity} mg")
                       ],
                     ),
                   ),

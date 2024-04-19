@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task_27_03/pages/loginscreens/ProfilePage/user_profile.dart';
@@ -46,7 +43,11 @@ class _MainScreenPageState extends State<MainScreenPage>
       initialIndex: 0,
       child: Scaffold(
         extendBody: true,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
+          elevation: 5,
+          surfaceTintColor: Colors.white,
+          shadowColor: Colors.black,
           leading: const Icon(Icons.arrow_back_ios_new),
           actions: appBarActionBar(selectedIndex),
           title: appBarTitle(selectedIndex),

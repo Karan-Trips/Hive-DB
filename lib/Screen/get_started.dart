@@ -90,10 +90,8 @@ class _GetStartedState extends State<GetStarted> {
                   child: InkWell(
                     onTap: () {
                       if (currentIndex != datas.length - 1) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MobileLogin()));
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, "/mobilelogin", (route) => false);
                       }
                     },
                     child: Text(
@@ -109,7 +107,7 @@ class _GetStartedState extends State<GetStarted> {
           Positioned(
             bottom: 10,
             left: 20,
-            right: 20,
+            right: 0,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Row(
@@ -119,9 +117,9 @@ class _GetStartedState extends State<GetStarted> {
                       controller: controller,
                       count: datas.length,
                       effect: ExpandingDotsEffect(
-                          dotHeight: 10,
-                          spacing: 3,
-                          dotWidth: 11,
+                          dotHeight: 8,
+                          spacing: 4,
+                          dotWidth: 10,
                           activeDotColor: Colors.green),
                       onDotClicked: (index) {
                         controller.animateToPage(index,

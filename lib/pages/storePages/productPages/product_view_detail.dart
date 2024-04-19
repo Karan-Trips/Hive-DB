@@ -8,7 +8,7 @@ import '../../CartItems/cart_items.dart';
 class ProductDetailsPage extends StatefulWidget {
   final int index;
   final String storename;
-  final ValueNotifier<List<dynamic>> items;
+  final List<dynamic> items;
 
   const ProductDetailsPage({
     super.key,
@@ -24,6 +24,7 @@ class ProductDetailsPage extends StatefulWidget {
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   PageController controller = PageController();
   int selectedIndex = 0;
+  int countAddToCart = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -153,16 +154,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       },
                       controller: controller,
                       itemBuilder: (context, index) => Image.asset(
-                        widget.items.value[index].image,
+                        widget.items[index].imageurl,
                       ),
-                      itemCount: widget.items.value.length,
+                      itemCount: widget.items.length,
                     ),
                   ),
                   const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
-                      widget.items.value.length,
+                      widget.items.length,
                       (index) => Container(
                         margin: const EdgeInsets.only(right: 7),
                         height: 4,
@@ -182,7 +183,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.items.value[widget.index].name,
+                  widget.items[widget.index].name,
                   style: const TextStyle(
                     fontSize: 14,
                   ),
@@ -192,7 +193,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "\$ ${widget.items.value[widget.index].price}",
+                      "\$ ${widget.items[widget.index].price}",
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -211,11 +212,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         children: [
                           InkWell(
                             onTap: () {
-                              if (widget.items.value[widget.index].count.value >
-                                  1) {
-                                widget.items.value[widget.index].count.value--;
+                              if (widget.items[widget.index].count.value > 1) {
+                                widget.items[widget.index].count.value--;
                                 debugPrint(widget
-                                    .items.value[widget.index].count.value
+                                    .items[widget.index].count.value
                                     .toString());
                               }
                             },
@@ -225,19 +225,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             ),
                           ),
                           ValueListenableBuilder(
-                            valueListenable:
-                                widget.items.value[widget.index].count,
+                            valueListenable: widget.items[widget.index].count,
                             builder: (context, value, child) => Text(
-                              widget.items.value[widget.index].count.value
-                                  .toString(),
+                              widget.items[widget.index].count.value.toString(),
                             ),
                           ),
                           InkWell(
                             onTap: () {
-                              widget.items.value[widget.index].count.value++;
-                              debugPrint(widget
-                                  .items.value[widget.index].count.value
-                                  .toString());
+                              widget.items[widget.index].count.value++;
+                              debugPrint(
+                                  widget.items[widget.index].count.toString());
                             },
                             child: const Icon(
                               Icons.add,
@@ -248,7 +245,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       ),
                     ),
                     Text(
-                      "${widget.items.value[widget.index].quantity} mg",
+                      "${widget.items[widget.index].quantity} mg",
                       style: const TextStyle(fontSize: 15),
                     ),
                   ],
@@ -265,11 +262,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     setState(() {
       cartItems.add({
         'shopName': widget.storename,
-        'imgUrl': widget.items.value[widget.index].image,
-        'name': widget.items.value[widget.index].name,
-        'quantity': widget.items.value[widget.index].count.value,
-        'mg': widget.items.value[widget.index].quantity,
-        'price': widget.items.value[widget.index].price
+        'imgUrl': widget.items[widget.index].imageurl,
+        'name': widget.items[widget.index].name,
+        'quantity': widget.items[widget.index].count.value,
+        'mg': widget.items[widget.index].quantity,
+        'price': widget.items[widget.index].price
       });
     });
     Fluttertoast.showToast(

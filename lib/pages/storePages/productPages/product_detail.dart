@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:task_27_03/pages/storePages/productPages/product_view_detail.dart';
 
 class MilkProductsPage extends StatefulWidget {
   const MilkProductsPage({
@@ -45,16 +46,16 @@ class _MilkProductsPageState extends State<MilkProductsPage> {
               children: [
                 InkWell(
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => ProductDetailsPage(
-                    //       storename: widget.storename,
-                    //       items: widget.items,
-                    //       index: index,
-                    //     ),
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProductDetailsPage(
+                          storename: widget.storename,
+                          items: widget.items,
+                          index: index,
+                        ),
+                      ),
+                    );
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -91,7 +92,7 @@ class _MilkProductsPageState extends State<MilkProductsPage> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(product.count.value.toString()),
+                              Text(product.quantity.toString()),
                             ],
                           ),
                         ),
