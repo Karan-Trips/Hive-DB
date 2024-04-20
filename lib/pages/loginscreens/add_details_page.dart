@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_27_03/Model/SharedPrefdata/sharedpref.dart';
 
 import '../../Model/widetsClass/elevatedbutton/elevated_button_class.dart';
@@ -38,7 +39,7 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  SharedPrefData sharedPrefData = SharedPrefData();
+  // SharedPrefData sharedPrefData = SharedPrefData();
   bool agree = false;
   GlobalKey<FormState> formKey = GlobalKey();
   TextEditingController bname = TextEditingController();
@@ -48,8 +49,15 @@ class _DetailsPageState extends State<DetailsPage> {
   TextEditingController zipcode = TextEditingController();
   TextEditingController phone = TextEditingController();
   void saveFormData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var sharedPrefData = prefs.getString('phoneno');
+    debugPrint(sharedPrefData.toString());
     if (formKey.currentState!.validate()) {
-      debugPrint(sharedPrefData.toString());
+      try {} catch (e) {
+        debugPrint('Error retrieving data from SharedPreferences: $e');
+        return null;
+      }
+
       var box = await Hive.openBox('user_data');
 
       Map<String, dynamic> userDataProfile = {

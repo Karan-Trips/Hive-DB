@@ -201,6 +201,7 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
                                       child: InkWell(
                                         onTap: () async {
                                           await deleteAddress(index);
+                                          setState(() {});
                                         },
                                         child: Row(
                                           mainAxisAlignment:
@@ -263,15 +264,16 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
                                               ),
                                               child: Icon(
                                                 Icons.edit,
+                                                color: Colors.black54,
                                                 size: 25.h,
                                               ),
                                             ),
                                             Text(
-                                              'Edit',
+                                              'Change',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.normal,
                                                 fontSize: 18.sp,
-                                                color: Colors.black,
+                                                color: const Color(0xff130101),
                                               ),
                                             ),
                                           ],

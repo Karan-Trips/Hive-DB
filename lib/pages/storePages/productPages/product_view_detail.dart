@@ -44,12 +44,43 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            onPressed: () {
-              _navigateToCartPage();
-            },
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: Stack(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    _navigateToCartPage();
+                  },
+                  icon: const Icon(Icons.shopping_cart, size: 27.0),
+                ),
+                Positioned(
+                  top: 3,
+                  right: 7,
+                  child: Container(
+                    height: 17.h,
+                    width: 17.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50.r),
+                      color: Colors.green,
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "2",
+                        style: TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
+          // IconButton(
+          //   icon: const Icon(Icons.shopping_cart),
+          //   onPressed: () {
+
+          //   },
+          // ),
         ],
       ),
       bottomNavigationBar: Container(

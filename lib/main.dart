@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:task_27_03/Routesetting/route_setting.dart';
-import 'package:task_27_03/pages/loginscreens/ProfilePage/user_profile.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          // home: const ProfilePage(),
+          // home: const MyWidget(),
           initialRoute: '/',
           onGenerateRoute: RouteManager.generateRoute,
         ));
