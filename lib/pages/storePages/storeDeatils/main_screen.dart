@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task_27_03/pages/loginscreens/ProfilePage/user_profile.dart';
 import 'package:task_27_03/pages/storePages/storeDeatils/store_main_page.dart';
 
+import '../../../Model/Cart/addtocart.dart';
 import '../../loginscreens/ProfilePage/edit_profile.dart';
 
 class MainScreenPage extends StatefulWidget {
@@ -87,6 +88,7 @@ class _MainScreenPageState extends State<MainScreenPage>
   }
 
   List<Widget> appBarActionBar(int index) {
+    int totalItems = cartItems.length;
     if (index == 0) {
       return [
         Padding(
@@ -107,10 +109,10 @@ class _MainScreenPageState extends State<MainScreenPage>
                     borderRadius: BorderRadius.circular(50.r),
                     color: Colors.green,
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      "2",
-                      style: TextStyle(color: Colors.white, fontSize: 12),
+                      totalItems.toString(),
+                      style: const TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ),
                 ),

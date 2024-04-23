@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../pages/storePages/storeDeatils/store_products.dart';
+import '../../Cart/addtocart.dart';
 import '../../storeClass/store.dart';
 
 class ImageContainer extends StatefulWidget {
@@ -36,6 +37,9 @@ class _ImageContainerState extends State<ImageContainer> {
 
   @override
   Widget build(BuildContext context) {
+    int totalItems = cartItems.length;
+    // print(totalItems);
+
     return Container(
       height: 272.h,
       width: double.infinity,
@@ -94,7 +98,7 @@ class _ImageContainerState extends State<ImageContainer> {
                       ),
                       child: Center(
                         child: Text(
-                          "2",
+                          totalItems.toString(),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 12.sp,

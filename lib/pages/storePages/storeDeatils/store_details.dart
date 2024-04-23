@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../Model/Cart/addtocart.dart';
 import '../../../Model/ReviewClass/review.dart';
 import '../../../Model/widetsClass/card/widgets_class.dart';
 import '../../../Model/widetsClass/reviewPage/widget_review.dart';
@@ -32,6 +33,8 @@ class _StoreDetailPageState extends State<StoreDetailPage>
 
   @override
   Widget build(BuildContext context) {
+    int totalItems = cartItems.length;
+
     final arguments =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
     final int? storeindex = arguments?['storeindex'];
@@ -79,7 +82,7 @@ class _StoreDetailPageState extends State<StoreDetailPage>
                           ),
                           child: Center(
                             child: Text(
-                              "2",
+                              totalItems.toString(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.sp,

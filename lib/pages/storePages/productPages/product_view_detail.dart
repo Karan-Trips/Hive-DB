@@ -28,6 +28,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    int totalItems = cartItems.length;
     return Scaffold(
       extendBody: true,
       backgroundColor: Colors.grey.shade200,
@@ -64,10 +65,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       borderRadius: BorderRadius.circular(50.r),
                       color: Colors.green,
                     ),
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        "2",
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        totalItems.toString(),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
                       ),
                     ),
                   ),

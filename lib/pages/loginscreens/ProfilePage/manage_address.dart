@@ -44,6 +44,7 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
     if (addresses != null && index >= 0 && index < addresses.length) {
       addresses.removeAt(index);
       await box.put(phoneno, addresses);
+      setState(() {});
     }
   }
 

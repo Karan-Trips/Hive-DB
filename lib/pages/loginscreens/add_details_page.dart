@@ -1,11 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hive/hive.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:task_27_03/Model/SharedPrefdata/sharedpref.dart';
 
 import '../../Model/widetsClass/elevatedbutton/elevated_button_class.dart';
 import '../../Model/widetsClass/textFormFeild/textformfield.dart';
@@ -53,12 +54,7 @@ class _DetailsPageState extends State<DetailsPage> {
     var sharedPrefData = prefs.getString('phoneno');
     debugPrint(sharedPrefData.toString());
     if (formKey.currentState!.validate()) {
-      try {} catch (e) {
-        debugPrint('Error retrieving data from SharedPreferences: $e');
-        return null;
-      }
-
-      var box = await Hive.openBox('user_data');
+      // var box = await Hive.openBox('user_data');//HIVE DB
 
       Map<String, dynamic> userDataProfile = {
         'businessName': bname.text,
@@ -68,8 +64,11 @@ class _DetailsPageState extends State<DetailsPage> {
         'phone': phone.text,
         'zipcode': zipcode.text,
       };
+      String userDataProfileJson = jsonEncode(userDataProfile);
 
-      await box.put(sharedPrefData, userDataProfile);
+      localStorage.setItem(
+          sharedPrefData!, userDataProfileJson); //LocalStorage DB
+      // await box.put(sharedPrefData, userDataProfile);//Hive DB
 
       Navigator.pushNamedAndRemoveUntil(
           context, '/mainscreen', (route) => false);

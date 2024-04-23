@@ -56,6 +56,7 @@ class _OtpPageState extends State<OtpPage> {
                 fieldHeight: 60.r,
                 fieldWidth: 55.r,
                 filled: true,
+
                 hasCustomInputDecoration: true,
                 decoration: InputDecoration(
                     isDense: true,

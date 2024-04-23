@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:hive/hive.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:localstorage/localstorage.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_27_03/pages/loginscreens/add_details_page.dart';
@@ -17,6 +19,17 @@ class UserAddress extends StatefulWidget {
 }
 
 class _UserAddressState extends State<UserAddress> {
+  String? validateField(value) {
+    final RegExp nameRegex = RegExp(r'^[a-zA-Z]');
+    if (value == null || value.isEmpty) {
+      return 'Please enter some text';
+    } else if (!nameRegex.hasMatch(value)) {
+      return 'Name not valid';
+    }
+    return null;
+  }
+
+  // LocalStorage localStorage = localStorage.getItems();
   final GlobalKey<FormState> formKey = GlobalKey();
   final TextEditingController bname = TextEditingController();
   final TextEditingController name = TextEditingController();
@@ -35,10 +48,12 @@ class _UserAddressState extends State<UserAddress> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? phoneno = prefs.getString('phoneno');
 
-    var box = await Hive.openBox('user_data');
+    // var box = await Hive.openBox('user_data');
 
-    var userData = await box.get(phoneno);
-    if (userData != null) {
+    // var userData = await box.get(phoneno);
+    var userDataJson = localStorage.getItem(phoneno!);
+    if (userDataJson != null) {
+      Map<String, dynamic> userData = jsonDecode(userDataJson);
       setState(() {
         bname.text = userData['businessName'];
         name.text = userData['firstName'];
@@ -46,9 +61,10 @@ class _UserAddressState extends State<UserAddress> {
         email.text = userData['email'];
         phone.text = userData['phone'];
         zipcode.text = userData['zipcode'];
+        // print('${userData['firstName']}');
       });
     } else {
-      debugPrint(userData);
+      debugPrint('No user data found');
     }
   }
 
@@ -76,8 +92,8 @@ class _UserAddressState extends State<UserAddress> {
                 inputAction: TextInputAction.next,
                 keyboradtype: TextInputType.text,
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your business name';
+                  if (value == null || value.isEmpty || value.isValidName()) {
+                    return 'Please enter business name';
                   }
                   return null;
                 },
@@ -90,7 +106,7 @@ class _UserAddressState extends State<UserAddress> {
                 keyboradtype: TextInputType.text,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your first name';
+                    return 'Please enter first name';
                   } else if (!value.isValidName()) {
                     return 'Please enter a valid first name';
                   }
@@ -166,7 +182,8 @@ class _UserAddressState extends State<UserAddress> {
                         await SharedPreferences.getInstance();
                     String? phoneno = prefs.getString('phoneno');
                     if (formKey.currentState!.validate()) {
-                      var box = await Hive.openBox('user_data');
+                      // var box = await Hive.openBox('user_data');
+
                       Map<String, dynamic> userDataProfile = {
                         'businessName': bname.text,
                         'firstName': name.text,
@@ -175,8 +192,10 @@ class _UserAddressState extends State<UserAddress> {
                         'phone': phone.text,
                         'zipcode': zipcode.text,
                       };
+                      String userDataProfileJson = jsonEncode(userDataProfile);
 
-                      await box.put(phoneno, userDataProfile);
+                      localStorage.setItem(phoneno!, userDataProfileJson);
+                      // await box.put(phoneno, userDataProfile);
                       Navigator.pop(context);
                     }
                   },

@@ -1,5 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
-
+// import 'package:localstorage/localstorage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -56,7 +56,7 @@ class MobileLoginState extends State<MobileLogin> {
                       keyboradtype: TextInputType.phone,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your phone number';
+                          return 'Please enter phone number';
                         } else if (value.length < 10 || value.length > 11) {
                           return 'Please enter a valid number';
                         }
