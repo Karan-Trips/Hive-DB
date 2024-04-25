@@ -41,10 +41,10 @@ class _UserAddressState extends State<UserAddress> {
   @override
   void initState() {
     super.initState();
-    _loadFormData();
+    getUserData();
   }
 
-  Future<void> _loadFormData() async {
+  Future<void> getUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? phoneno = prefs.getString('phoneno');
 
@@ -92,7 +92,7 @@ class _UserAddressState extends State<UserAddress> {
                 inputAction: TextInputAction.next,
                 keyboradtype: TextInputType.text,
                 validator: (value) {
-                  if (value == null || value.isEmpty || value.isValidName()) {
+                  if (value == null || value.isEmpty) {
                     return 'Please enter business name';
                   }
                   return null;

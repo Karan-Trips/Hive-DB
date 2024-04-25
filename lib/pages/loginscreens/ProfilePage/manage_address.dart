@@ -55,7 +55,7 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
 
   List<Map<dynamic, dynamic>>? userAddresses;
 
-  void _fetchUserAddresses() async {
+  Future<void> _fetchUserAddresses() async {
     List<Map<dynamic, dynamic>>? addresses = await getUserAddresses();
     if (addresses != null) {
       setState(() {
@@ -71,15 +71,8 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: getUserAddresses(),
+        future: _fetchUserAddresses(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
           return Scaffold(
               backgroundColor: const Color(0xffF5F5F5),
               appBar: AppBar(

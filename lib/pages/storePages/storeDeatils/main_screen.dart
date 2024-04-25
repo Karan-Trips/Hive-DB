@@ -46,9 +46,9 @@ class _MainScreenPageState extends State<MainScreenPage>
         extendBody: true,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          elevation: 5,
+          elevation: 4,
           surfaceTintColor: Colors.white,
-          shadowColor: Colors.black,
+          shadowColor: const Color.fromRGBO(0, 0, 0, 0.06),
           leading: const Icon(Icons.arrow_back_ios_new),
           actions: appBarActionBar(selectedIndex),
           title: appBarTitle(selectedIndex),

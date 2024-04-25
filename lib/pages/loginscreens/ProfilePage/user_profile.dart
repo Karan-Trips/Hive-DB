@@ -24,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
     {"About Us": Icons.person},
     {"Terms & Conditions": Icons.list_alt_outlined},
     {"Privacy Policy": Icons.privacy_tip_outlined},
-    {"Contact-Us": Icons.contact_phone},
+    {"Contact-Us": Icons.phone},
     {"Log-Out": Icons.login},
   ];
 
@@ -33,6 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
       case "Log-Out":
         SharedPreferences preferences = await SharedPreferences.getInstance();
         await preferences.remove('phoneno');
+        // await preferences.clear();
         Navigator.popAndPushNamed(context, '/mobilelogin');
         break;
       case "Manage Address":
@@ -102,15 +103,25 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Scaffold build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    int crossAxisCount;
+
+    crossAxisCount = screenWidth < 500
+        ? 2
+        : screenWidth < 700
+            ? 3
+            : screenWidth < 900
+                ? 4
+                : 5;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: GridView.builder(
           itemCount: icons.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
-            crossAxisCount: 2,
+            crossAxisCount: crossAxisCount,
           ),
           itemBuilder: (context, index) => iconsTile(icons[index]),
         ),

@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 
+import 'package:elegant_notification/elegant_notification.dart';
+import 'package:elegant_notification/resources/stacked_options.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -69,6 +71,25 @@ class _DetailsPageState extends State<DetailsPage> {
       localStorage.setItem(
           sharedPrefData!, userDataProfileJson); //LocalStorage DB
       // await box.put(sharedPrefData, userDataProfile);//Hive DB
+      ElegantNotification.success(
+        width: 360,
+        isDismissable: false,
+        stackedOptions: StackedOptions(
+          key: 'top',
+          type: StackedType.same,
+          itemOffset: const Offset(-5, -5),
+        ),
+        title: const Text('Added'),
+        description: const Text('Details Added successfully'),
+        onDismiss: () {},
+        onNotificationPressed: () {},
+        border: const Border(
+          bottom: BorderSide(
+            color: Colors.green,
+            width: 2,
+          ),
+        ),
+      ).show(context);
 
       Navigator.pushNamedAndRemoveUntil(
           context, '/mainscreen', (route) => false);

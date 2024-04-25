@@ -1,11 +1,41 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:elegant_notification/elegant_notification.dart';
+import 'package:elegant_notification/resources/stacked_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_27_03/Model/widetsClass/elevatedbutton/elevated_button_class.dart';
 import 'package:task_27_03/Model/widetsClass/textFormFeild/textformfield.dart';
+
+extension ValidationExtension on TextEditingController {
+  String? validateEmpty(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Field cannot be empty';
+    }
+    return null;
+  }
+
+  String? validateLength(String? value, int minLength) {
+    if (value == null || value.length < minLength) {
+      return 'Field must be at least $minLength characters long';
+    }
+    return null;
+  }
+
+  String? validateZipcode(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Zipcode cannot be empty';
+    }
+
+    final RegExp regex = RegExp(r'^\d{5}$');
+    if (!regex.hasMatch(value)) {
+      return 'Invalid zipcode';
+    }
+    return null;
+  }
+}
 
 class UserAddressDetails extends StatefulWidget {
   const UserAddressDetails({super.key});
@@ -63,8 +93,9 @@ class _UserAddressDetailsState extends State<UserAddressDetails> {
                     suficIcon: Icons.location_on,
                     controller: address,
                     labeltxt: "Address",
-                    validator: (p0) {
-                      return null;
+                    validator: (value) {
+                      return address.validateEmpty(value) ??
+                          address.validateLength(value, 5);
                     },
                     inputAction: TextInputAction.next,
                     keyboradtype: TextInputType.text),
@@ -72,43 +103,35 @@ class _UserAddressDetailsState extends State<UserAddressDetails> {
                 Textfield(
                     controller: unitno,
                     labeltxt: "Enter Unit Number",
-                    validator: (p0) {
-                      return null;
-                    },
+                    validator: unitno.validateEmpty,
                     inputAction: TextInputAction.next,
-                    keyboradtype: TextInputType.text),
+                    keyboradtype: TextInputType.number),
                 15.verticalSpace,
                 Textfield(
                     controller: city,
                     labeltxt: "City",
-                    validator: (p0) {
-                      return null;
-                    },
+                    validator: city.validateEmpty,
                     inputAction: TextInputAction.next,
-                    keyboradtype: TextInputType.text),
+                    keyboradtype: TextInputType.name),
                 15.verticalSpace,
                 Textfield(
                     controller: state,
                     labeltxt: "State",
-                    validator: (p0) {
-                      return null;
-                    },
+                    validator: state.validateEmpty,
                     inputAction: TextInputAction.next,
-                    keyboradtype: TextInputType.text),
+                    keyboradtype: TextInputType.name),
                 15.verticalSpace,
                 Textfield(
                     controller: zipcode,
                     labeltxt: "Zipcode",
-                    validator: (p0) {
-                      return null;
-                    },
+                    validator: zipcode.validateZipcode,
                     inputAction: TextInputAction.next,
-                    keyboradtype: TextInputType.text),
+                    keyboradtype: TextInputType.number),
                 15.verticalSpace,
                 Textfield(
                     controller: deliveryInst,
                     maxline: 5,
-                    labeltxt: "Delivery Instruction",
+                    labeltxt: "Delivery Instruction(Optional)",
                     validator: (p0) {
                       return null;
                     },
@@ -157,11 +180,30 @@ class _UserAddressDetailsState extends State<UserAddressDetails> {
 
       box.put(phoneno, userAddresses);
     }
-    var snackBar = const SnackBar(
-        backgroundColor: Colors.red, content: Text('Details Add'));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    ElegantNotification.success(
+      width: 360,
+      isDismissable: false,
+      stackedOptions: StackedOptions(
+        key: 'top',
+        type: StackedType.above,
+        itemOffset: const Offset(-5, -5),
+      ),
+      title: const Text('Added'),
 
-    Navigator.pop(context);
+      description: const Text('Details Added successfully'),
+      onDismiss: () {},
+      // onNotificationPressed: () {},
+      border: const Border(
+        bottom: BorderSide(
+          color: Colors.green,
+          width: 2,
+        ),
+      ),
+    ).show(context);
+    // var snackBar = const SnackBar(
+    //     backgroundColor: Colors.red, content: Text('Details Add'));
+    // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
     Navigator.pop(context);
   }
 }

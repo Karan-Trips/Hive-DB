@@ -96,10 +96,10 @@ class _StoreDetailPageState extends State<StoreDetailPage>
                 ],
                 stretch: true,
                 automaticallyImplyLeading: false,
-                expandedHeight: 210,
+                expandedHeight: 230,
                 flexibleSpace: FlexibleSpaceBar(
                   background: SizedBox(
-                    height: 270,
+                    height: 250,
                     width: double.infinity,
                     child: Stack(children: [
                       Container(
@@ -142,88 +142,86 @@ class _StoreDetailPageState extends State<StoreDetailPage>
           body: DefaultTabController(
             length: 2,
             initialIndex: 0,
-            child: SafeArea(
-              child: Scaffold(
-                body: Column(
-                  children: [
-                    TabBar(
-                      labelStyle: TextStyle(
-                          color: const Color(0xff272727).withOpacity(.5)),
-                      padding: EdgeInsets.zero,
+            child: Scaffold(
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  TabBar(
+                    labelStyle: TextStyle(
+                        color: const Color(0xff272727).withOpacity(.5)),
+                    padding: EdgeInsets.zero,
+                    controller: controller,
+                    labelPadding: EdgeInsets.only(right: 5.w, left: 5.w),
+                    indicator: const BoxDecoration(color: Color(0xffF0F6EE)),
+                    labelColor: Colors.green,
+                    indicatorColor: Colors.transparent,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    tabs: [
+                      Container(
+                          color: const Color(0xffF0F6EE),
+                          child: const Center(child: Tab(text: 'About Us'))),
+                      Container(
+                          color: const Color(0xffF0F6EE),
+                          child: const Center(child: Tab(text: 'Reviews'))),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
                       controller: controller,
-                      labelPadding: EdgeInsets.only(right: 5.w, left: 5.w),
-                      indicator: const BoxDecoration(color: Color(0xffF0F6EE)),
-                      labelColor: Colors.green,
-                      indicatorColor: Colors.transparent,
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      tabs: [
-                        Container(
-                            color: const Color(0xffF0F6EE),
-                            child: const Center(child: Tab(text: 'About Us'))),
-                        Container(
-                            color: const Color(0xffF0F6EE),
-                            child: const Center(child: Tab(text: 'Reviews'))),
-                      ],
-                    ),
-                    Expanded(
-                      child: TabBarView(
-                        controller: controller,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(20.w),
-                            child: const SingleChildScrollView(
-                              child: Text(
-                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                                maxLines: 19,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(20.w),
+                          child: const SingleChildScrollView(
+                            child: Text(
+                              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                              maxLines: 19,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          SizedBox(
-                            height: 200,
-                            child: SingleChildScrollView(
-                              padding:
-                                  const EdgeInsets.only(left: 15, right: 15),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "All Reviews (${reviews.length})",
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
-                                      TextButton(
-                                          onPressed: () {},
-                                          child: Text(
-                                            "View all",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 12.sp),
-                                          )),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 20),
-                                    child: Column(
-                                      children: List.generate(
-                                          reviews.length,
-                                          (index) => ReviewPage(
-                                                index: index,
-                                              )),
+                        ),
+                        SizedBox(
+                          height: 200,
+                          child: SingleChildScrollView(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "All Reviews (${reviews.length})",
+                                      style:
+                                          const TextStyle(color: Colors.black),
                                     ),
-                                  )
-                                ],
-                              ),
+                                    TextButton(
+                                        onPressed: () {},
+                                        child: Text(
+                                          "View all",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12.sp),
+                                        )),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 20),
+                                  child: Column(
+                                    children: List.generate(
+                                        reviews.length,
+                                        (index) => ReviewPage(
+                                              index: index,
+                                            )),
+                                  ),
+                                )
+                              ],
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           )),

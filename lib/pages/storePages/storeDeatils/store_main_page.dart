@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -33,6 +34,8 @@ class _StorePageState extends State<StorePage> {
           );
         } else {
           return SingleChildScrollView(
+            padding: const EdgeInsets.only(bottom: 80),
+            // dragStartBehavior: DragStartBehavior.down,
             // physics: const BouncingScrollPhysics(),
             child: Column(
               children: [
@@ -43,10 +46,11 @@ class _StorePageState extends State<StorePage> {
                     color: Color.fromRGBO(0, 0, 0, 0.06),
                     boxShadow: [
                       BoxShadow(
-                        color: Color(0xffF0F6EE),
-                        offset: Offset(0, 3),
-                        blurRadius: 10,
-                      )
+                          color: Color(0xffF0F6EE),
+                          offset: Offset(0, 3),
+                          blurRadius: 10,
+                          // spreadRadius: 5,
+                          blurStyle: BlurStyle.inner)
                     ],
                   ),
                   child: const Center(
@@ -79,6 +83,7 @@ class _StorePageState extends State<StorePage> {
                     ),
                   ),
                 ),
+                // 100.verticalSpace
               ],
             ),
           );

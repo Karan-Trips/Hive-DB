@@ -1,7 +1,8 @@
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors
+// ignore_for_file: non_constant_identifier_names, prefer_const_constructors, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:task_27_03/pages/loginscreens/mobile_login.dart';
 
@@ -24,6 +25,20 @@ class _GetStartedState extends State<GetStarted> {
   void initState() {
     controller = PageController();
     super.initState();
+    redirectCheck();
+  }
+
+  void redirectCheck() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('phoneno');
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (token != null && token.isNotEmpty) {
+      Navigator.pushReplacementNamed(context, '/mainscreen');
+    } else {
+      Navigator.pushReplacementNamed(context, '/mobilelogin');
+    }
   }
 
   @override

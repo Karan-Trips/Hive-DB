@@ -82,6 +82,7 @@ class _EditUserAddressState extends State<EditUserAddress> {
   }
 
   Widget _buildAddressForm(BuildContext context) {
+    // int addressIndex = ModalRoute.of(context)!.settings.arguments as int;
     return Scaffold(
       appBar: AppBar(
         leading: InkWell(
@@ -164,9 +165,29 @@ class _EditUserAddressState extends State<EditUserAddress> {
                   width: double.infinity,
                   child: Elevatedbutton(
                     txt: "Add",
-                    onPressed: () {
+                    onPressed: () async {
                       if (addressformkey.currentState!.validate()) {
                         // _saveAddressDetails();
+                        var box = await Hive.openBox('users_address');
+                        String? token = await _getToken();
+                        List<dynamic>? addresses = await box.get(token);
+                        if (addresses != null) {
+                          List<Map<dynamic, dynamic>> convertedAddresses =
+                              addresses.cast<Map<dynamic, dynamic>>().toList();
+
+                          convertedAddresses[addressindex] = {
+                            'address': address.text,
+                            'unit': unitno.text,
+                            'city': city.text,
+                            'state': state.text,
+                            'zipcode': zipcode.text,
+                            'instruction': deliveryInst.text,
+                          };
+
+                          await box.put(token, convertedAddresses);
+
+                          Navigator.pop(context);
+                        }
                       }
                     },
                   ),
