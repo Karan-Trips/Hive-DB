@@ -5,12 +5,15 @@ import 'package:localstorage/localstorage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:task_27_03/Routesetting/route_setting.dart';
 
+import 'pages/orderPages/manage_paymets.dart';
+import 'pages/orderPages/place_order.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDirectory = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDirectory.path);
   await initLocalStorage();
-  
+
   runApp(const MyApp());
 }
 
@@ -28,7 +31,7 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          // home: const MyWidget(),
+          // home: const ManagePaymentsDetails(),
           initialRoute: '/',
           onGenerateRoute: RouteManager.generateRoute,
         ));

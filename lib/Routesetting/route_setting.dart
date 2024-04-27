@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:task_27_03/pages/loginscreens/ProfilePage/edit_address.dart';
+import 'package:task_27_03/pages/loginscreens/ProfilePage/manage_address.dart';
 
 import '../Screen/get_started.dart';
 import '../pages/loginscreens/add_details_page.dart';
 import '../pages/loginscreens/mobile_login.dart';
 import '../pages/loginscreens/otp_page.dart';
+import '../pages/orderPages/manage_paymets.dart';
+import '../pages/orderPages/place_order.dart';
 import '../pages/storePages/storeDeatils/main_screen.dart';
 import '../pages/storePages/storeDeatils/store_details.dart';
 import '../pages/storePages/storeDeatils/store_products.dart';
@@ -31,6 +34,12 @@ class RouteManager {
       case '/storeDetailpage':
         return MaterialPageRoute(
             builder: (_) => const StoreDetailPage(), settings: settings);
+      case '/orderBillingPage':
+        return MaterialPageRoute(
+            builder: (_) => const PlaceAnOrder(), settings: settings);
+      case '/managepayments':
+        return MaterialPageRoute(
+            builder: (_) => const ManagePaymentsDetails(), settings: settings);
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

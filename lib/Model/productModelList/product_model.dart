@@ -140,7 +140,7 @@ final List<Category> categories = [
   Category(
     id: 0,
     name: 'Dairy & Eggs',
-    subcategories: [dairy, snacks, milkitems],
+    subcategories: [dairy, snacks],
     image: 'assets/images/food1.png',
   ),
   Category(

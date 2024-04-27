@@ -6,12 +6,14 @@ class Elevatedbutton extends StatelessWidget {
     super.key,
     this.currentIndex,
     this.controller,
+    this.padding,
     required this.txt,
     required this.onPressed,
   });
 
   final int? currentIndex;
   final String txt;
+  final EdgeInsetsGeometry? padding;
   final PageController? controller;
   final void Function()? onPressed;
   @override
@@ -19,7 +21,8 @@ class Elevatedbutton extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 39.w),
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+          style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green, padding: padding),
           onPressed: onPressed,
           child: Text(
             txt,

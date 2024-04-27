@@ -23,12 +23,12 @@ class _GetStartedState extends State<GetStarted> {
 
   @override
   void initState() {
+    redirectCheck();
     controller = PageController();
     super.initState();
-    redirectCheck();
   }
 
-  void redirectCheck() async {
+  Future redirectCheck() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('phoneno');
 
