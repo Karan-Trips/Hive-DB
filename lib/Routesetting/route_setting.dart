@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:task_27_03/pages/loginscreens/ProfilePage/edit_address.dart';
-import 'package:task_27_03/pages/loginscreens/ProfilePage/manage_address.dart';
 
 import '../Screen/get_started.dart';
 import '../pages/loginscreens/add_details_page.dart';

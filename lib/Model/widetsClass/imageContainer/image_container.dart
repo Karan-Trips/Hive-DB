@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../pages/CartItems/cart_items.dart';
 import '../../../pages/storePages/storeDeatils/store_products.dart';
 import '../../Cart/addtocart.dart';
 import '../../storeClass/store.dart';
 
 class ImageContainer extends StatefulWidget {
   final int productindex;
+  final String storeName;
   const ImageContainer({
     super.key,
     required this.widget,
+    required this.storeName,
     required this.searchController,
     required this.productindex,
   });
@@ -82,7 +85,16 @@ class _ImageContainerState extends State<ImageContainer> {
               Stack(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CartPage(
+                              cartItems: cartItems,
+                              storeName: widget.storeName),
+                        ),
+                      );
+                    },
                     icon: const Icon(Icons.shopping_cart),
                     color: Colors.white,
                   ),

@@ -5,8 +5,6 @@ import 'package:localstorage/localstorage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:task_27_03/Routesetting/route_setting.dart';
 
-import 'pages/orderPages/manage_paymets.dart';
-import 'pages/orderPages/place_order.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -39,6 +39,7 @@ class _StoreProductDetailState extends State<StoreProductDetail> {
         child: Column(
           children: <Widget>[
             ImageContainer(
+              storeName: storename,
               widget: widget,
               searchController: searchController,
               productindex: productindex,

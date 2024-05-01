@@ -77,12 +77,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               ],
             ),
           ),
-          // IconButton(
-          //   icon: const Icon(Icons.shopping_cart),
-          //   onPressed: () {
-
-          //   },
-          // ),
         ],
       ),
       bottomNavigationBar: Container(
@@ -225,13 +219,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "\$ ${widget.items[widget.index].price}",
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    ValueListenableBuilder(
+                        valueListenable: widget.items[widget.index].count,
+                        builder: (context, value, child) => Text(
+                              "\$ ${widget.items[widget.index].price * widget.items[widget.index].count.value}",
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 7),
                       height: 35,
@@ -293,14 +289,26 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   void _addToCart() {
     setState(() {
-      cartItems.add({
-        'shopName': widget.storename,
-        'imgUrl': widget.items[widget.index].imageurl,
-        'name': widget.items[widget.index].name,
-        'quantity': widget.items[widget.index].count.value,
-        'mg': widget.items[widget.index].quantity,
-        'price': widget.items[widget.index].price
-      });
+      cartItems.add(
+          // Items(
+          //         imgUrl: widget.items[widget.index].imageurl,
+          //         name: widget.storename,
+          //         quantity: widget.items[widget.index].count.value,
+          //         mg: widget.items[widget.index].quantity,
+          //         price: widget.items[widget.index].price *
+          //             widget.items[widget.index].count.value)
+          {
+            'shopName': widget.storename,
+            'imgUrl': widget.items[widget.index].imageurl,
+            'name': widget.items[widget.index].name,
+            'quantity': widget.items[widget.index].count.value,
+            'mg': widget.items[widget.index].quantity,
+            'price': widget.items[widget.index].price *
+                widget.items[widget.index].count.value
+          });
+
+      // print(cartItems);
+      Navigator.pop(context);
     });
     Fluttertoast.showToast(
         msg: "Added into cart",
@@ -316,7 +324,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       context,
       MaterialPageRoute(
         builder: (context) =>
-            CartPage(cartItems: cartItems, storename: widget.storename),
+            CartPage(cartItems: cartItems, storeName: widget.storename),
       ),
     );
   }

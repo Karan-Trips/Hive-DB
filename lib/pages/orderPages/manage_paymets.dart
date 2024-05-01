@@ -132,7 +132,122 @@ class _ManagePaymentsDetailsState extends State<ManagePaymentsDetails> {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (BuildContext context) {
+                      return DraggableScrollableSheet(
+                        expand: false,
+                        initialChildSize: 0.5,
+                        maxChildSize: 0.9,
+                        minChildSize: 0.5,
+                        builder: (context, scrollController) {
+                          return Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20.0),
+                                topRight: Radius.circular(20.0),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: ListView(
+                                controller: scrollController,
+                                children: [
+                                  TextField(
+                                    decoration: InputDecoration(
+                                      hintText: 'Card Holder Name',
+                                      filled: true,
+                                      fillColor: const Color(0xFF2C2D36),
+                                      hintStyle:
+                                          const TextStyle(color: Colors.white),
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16.0),
+                                  TextField(
+                                    decoration: InputDecoration(
+                                      hintText: 'Card Number',
+                                      filled: true,
+                                      fillColor: const Color(0xFF2C2D36),
+                                      hintStyle:
+                                          const TextStyle(color: Colors.white),
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16.0),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextField(
+                                          decoration: InputDecoration(
+                                            hintText: 'DD / YYYY',
+                                            filled: true,
+                                            fillColor: const Color(0xFF2C2D36),
+                                            hintStyle: const TextStyle(
+                                                color: Colors.white),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 16.0),
+                                      SizedBox(
+                                        width: 80.0,
+                                        child: TextField(
+                                          decoration: InputDecoration(
+                                            hintText: 'CVV',
+                                            filled: true,
+                                            fillColor: const Color(0xFF2C2D36),
+                                            hintStyle: const TextStyle(
+                                                color: Colors.white),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              borderSide: BorderSide.none,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 16.0),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                    
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF26C281),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                    child: const Text('Add'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
                 child: Padding(
                   padding: const EdgeInsets.only(top: 12),
                   child: Row(
