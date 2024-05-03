@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CountNotifier extends ValueNotifier<int> {
+class CountNotifier extends ValueNotifier<double> {
   CountNotifier(super.value);
 
   void increment() {

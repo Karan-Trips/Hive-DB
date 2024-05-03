@@ -130,7 +130,7 @@ class _PlaceAnOrderState extends State<PlaceAnOrder> {
                                       color: Colors.greenAccent,
                                       borderRadius: BorderRadius.circular(4)),
                                   child: const Text(
-                                    "Flat 10%",
+                                    "Flat 20%",
                                     style: TextStyle(
                                         color: Colors.green,
                                         fontWeight: FontWeight.w500,

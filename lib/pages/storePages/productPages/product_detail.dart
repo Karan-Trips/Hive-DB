@@ -10,10 +10,12 @@ class MilkProductsPage extends StatefulWidget {
     required this.items,
     required this.storename,
     required this.count,
+    required this.index,
   });
 
   final String title;
   final int count;
+  final int index;
   final String storename;
   final List<dynamic> items;
 
@@ -51,8 +53,9 @@ class _MilkProductsPageState extends State<MilkProductsPage> {
                       MaterialPageRoute(
                         builder: (context) => ProductDetailsPage(
                           storename: widget.storename,
-                          items: widget.items,
+                          items: widget.items[index],
                           index: index,
+                          listindex: widget.index,
                         ),
                       ),
                     );
@@ -87,7 +90,7 @@ class _MilkProductsPageState extends State<MilkProductsPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "\$${product.price}",
+                                "\$${product.price.value}",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                 ),

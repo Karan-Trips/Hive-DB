@@ -89,13 +89,13 @@ class _StoreProductDetailState extends State<StoreProductDetail> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => MilkProductsPage(
-                                    storename: storename,
-                                    items: allSubcategories,
-                                    title: categories[selectedIndex]
-                                        .subcategories[index][0]
-                                        .name,
-                                    count: count,
-                                  ),
+                                      storename: storename,
+                                      items: allSubcategories,
+                                      title: categories[selectedIndex]
+                                          .subcategories[index][0]
+                                          .name,
+                                      count: count,
+                                      index: index),
                                 ),
                               );
                             },
@@ -296,7 +296,7 @@ class _StoreProductDetailState extends State<StoreProductDetail> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "\$${item.price}",
+                          "\$${item.price.value}",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),

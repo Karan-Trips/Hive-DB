@@ -4,7 +4,6 @@ import 'package:task_27_03/pages/loginscreens/ProfilePage/user_profile.dart';
 import 'package:task_27_03/pages/storePages/storeDeatils/store_main_page.dart';
 
 import '../../../Model/Cart/addtocart.dart';
-import '../../CartItems/cart_items.dart';
 import '../../loginscreens/ProfilePage/edit_profile.dart';
 
 class MainScreenPage extends StatefulWidget {

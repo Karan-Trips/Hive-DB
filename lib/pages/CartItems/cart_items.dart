@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:task_27_03/Model/Cart/addtocart.dart';
-import 'package:task_27_03/Model/widetsClass/elevatedbutton/elevated_button_class.dart';
+
+import '../../Model/widetsClass/elevatedbutton/elevated_button_class.dart';
 
 class CartPage extends StatefulWidget {
   final List<Map<String, dynamic>> cartItems;
@@ -14,23 +14,45 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  double calculateTotalPrice() {
-    double totalPrice = 0.0;
+  late double totalPrice = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    
     for (var item in widget.cartItems) {
-      totalPrice += item['price'];
+      double itemTotalPrice =
+          item['maindata'].price.value * item['maindata'].count.value;
+      totalPrice += itemTotalPrice;
     }
-    return totalPrice;
   }
 
   @override
   Widget build(BuildContext context) {
     Map<String, List<Map<String, dynamic>>> itemsByShop = {};
+
     for (var item in widget.cartItems) {
       String shopName = item['shopName'];
+      String itemKey = item['key'].toString();
+      String categorykey = item['categoryindex'].toString();
+      List<Map<String, dynamic>> shopItemList = itemsByShop[shopName] ?? [];
       if (itemsByShop.containsKey(shopName)) {
-        itemsByShop[shopName]!.add(item);
+        int itemIndex = shopItemList.indexWhere((e) =>
+            e['key'].toString() == itemKey &&
+            e['categoryindex'].toString() ==
+                categorykey); // check the both indexes shopIndex,categoryIndex
+
+        if (itemIndex != -1) {
+          print('nothing');
+        } else {
+          itemsByShop[shopName]!.add(item);
+        }
       } else {
-        itemsByShop[shopName] = [item];
+        itemsByShop[shopName] = [
+          item
+        ]; //if not able to find the key then make new banyega
+
+        // print(itemsByShop);
       }
     }
 
@@ -59,7 +81,7 @@ class _CartPageState extends State<CartPage> {
           children: [
             _buildDeliveryDateContainer(),
             const SizedBox(height: 5),
-            _buildSubTotalContainer(),
+            _buildSubTotalContainer(itemsByShop),
             _buildItemsList(itemsByShop),
             const SizedBox(height: 50),
             _buildElevatedButton(context),
@@ -72,7 +94,7 @@ class _CartPageState extends State<CartPage> {
   Widget _buildItemsList(Map<String, List<Map<String, dynamic>>> itemsByShop) {
     return Column(
       children: [
-        for (String shopName in itemsByShop.keys)
+        for (String key in itemsByShop.keys)
           Container(
             margin: EdgeInsets.symmetric(vertical: 10.h),
             padding: EdgeInsets.all(16.sp),
@@ -93,7 +115,7 @@ class _CartPageState extends State<CartPage> {
                     vertical: 10,
                   ),
                   child: Text(
-                    shopName,
+                    key,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -101,12 +123,14 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ),
                 ListView.separated(
-                  separatorBuilder: (context, index) => const Divider(),
+                  separatorBuilder: (context, index) => const Divider(
+                    height: 1,
+                  ),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: itemsByShop[shopName]!.length,
+                  itemCount: itemsByShop[key]!.length,
                   itemBuilder: (context, index) {
-                    var item = itemsByShop[shopName]![index];
+                    var item = itemsByShop[key]![index];
                     return _buildItemRow(item);
                   },
                 ),
@@ -117,14 +141,14 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _buildItemRow(Map<String, dynamic> item) {
+  Widget _buildItemRow(item) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           padding: const EdgeInsets.all(8.0),
           child: Image.asset(
-            item['imgUrl'],
+            item['maindata'].imageurl,
             height: 80,
           ),
         ),
@@ -136,7 +160,7 @@ class _CartPageState extends State<CartPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    item['name'],
+                    item['maindata'].name,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
@@ -154,18 +178,24 @@ class _CartPageState extends State<CartPage> {
                 ],
               ),
               const SizedBox(height: 8),
-              Text(
-                '\$${item['price'].toStringAsFixed(2)}',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              ValueListenableBuilder(
+                valueListenable: item['maindata'].count,
+                builder: (context, value, child) => Text(
+                  '\$${(item['maindata'].price.value * item['maindata'].count.value).toStringAsFixed(2)}',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 4),
-              Text(
-                '${item['mg']} mg',
-                style: const TextStyle(
-                  fontSize: 14,
+              ValueListenableBuilder(
+                valueListenable: item['maindata'].count,
+                builder: (context, value, child) => Text(
+                  '${item['maindata'].quantity * item['maindata'].count.value} mg',
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
                 ),
               ),
               const SizedBox(height: 8),
@@ -173,7 +203,11 @@ class _CartPageState extends State<CartPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      if (item['maindata'].count.value > 0) {
+                        item['maindata'].count.value--;
+                      }
+                    },
                     child: Container(
                       margin: const EdgeInsets.only(right: 23, bottom: 17),
                       decoration: BoxDecoration(
@@ -189,17 +223,22 @@ class _CartPageState extends State<CartPage> {
                   const SizedBox(width: 8),
                   Container(
                     margin: const EdgeInsets.only(right: 23, bottom: 17),
-                    child: Text(
-                      item['quantity'].toString(),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                    child: ValueListenableBuilder(
+                      valueListenable: item['maindata'].count,
+                      builder: (context, value, child) => Text(
+                        item['maindata'].count.value.toString(),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 8),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      item['maindata'].count.value++;
+                    },
                     child: Container(
                       margin: const EdgeInsets.only(right: 23, bottom: 17),
                       decoration: BoxDecoration(
@@ -225,15 +264,12 @@ class _CartPageState extends State<CartPage> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Elevatedbutton(
-        bgColors:
-            calculateTotalPrice() > 30 ? Colors.green : const Color(0xffD4D4D4),
-        txt: calculateTotalPrice() > 30
-            ? 'Proceed to Checkout'
-            : '\$ 30 Min.to Checkout',
+        bgColors: totalPrice > 30 ? Colors.green : const Color(0xffD4D4D4),
+        txt: totalPrice > 30 ? 'Proceed to Checkout' : '\$ 30 Min.to Checkout',
         onPressed: () {
-          if (calculateTotalPrice() > 30) {
+          if (totalPrice > 30) {
             Navigator.pushNamed(context, "/orderBillingPage",
-                arguments: calculateTotalPrice());
+                arguments: totalPrice);
           } else {
             debugPrint('check the amount ');
           }
@@ -243,7 +279,7 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Container _buildSubTotalContainer() {
+  Container _buildSubTotalContainer(itemsByShop) {
     return Container(
       width: double.infinity,
       height: 45.h,
@@ -261,7 +297,7 @@ class _CartPageState extends State<CartPage> {
       child: Padding(
         padding: const EdgeInsets.only(left: 10, top: 10),
         child: Text(
-          "Sub Total (${widget.cartItems.length} items) : \$${calculateTotalPrice()}",
+          "Sub Total (${itemsByShop[widget.storeName].length} items) : \$${totalPrice.toStringAsFixed(2)}",
           style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w500,

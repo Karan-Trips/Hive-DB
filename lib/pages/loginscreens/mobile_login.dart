@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Model/widetsClass/textFormFeild/textformfield.dart';
+import '../../gen/assets.gen.dart';
 
 class MobileLogin extends StatefulWidget {
   const MobileLogin({super.key});
@@ -41,13 +42,7 @@ class MobileLoginState extends State<MobileLogin> {
               ),
               child: Column(
                 children: [
-                  Center(
-                    child: Image.asset(
-                      'assets/images/splash.png',
-                      height: 200.h,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  Center(child: Assets.images.splash.image()),
                   45.verticalSpace,
                   Form(
                     key: formKey,

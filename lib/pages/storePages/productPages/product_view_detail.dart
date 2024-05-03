@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:task_27_03/Model/productModelList/product_model.dart';
 
 import '../../../Model/Cart/addtocart.dart';
 import '../../CartItems/cart_items.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   final int index;
+  final int listindex;
   final String storename;
-  final List<dynamic> items;
+  final Subcategory items;
 
   const ProductDetailsPage({
     super.key,
     required this.index,
     required this.items,
     required this.storename,
+    required this.listindex,
   });
 
   @override
@@ -181,16 +184,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       },
                       controller: controller,
                       itemBuilder: (context, index) => Image.asset(
-                        widget.items[index].imageurl,
+                        widget.items.imageurl,
                       ),
-                      itemCount: widget.items.length,
+                      itemCount: 3,
                     ),
                   ),
                   const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
-                      widget.items.length,
+                      3,
                       (index) => Container(
                         margin: const EdgeInsets.only(right: 7),
                         height: 4,
@@ -210,7 +213,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.items[widget.index].name,
+                  widget.items.name,
                   style: const TextStyle(
                     fontSize: 14,
                   ),
@@ -220,9 +223,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ValueListenableBuilder(
-                        valueListenable: widget.items[widget.index].count,
+                        valueListenable: widget.items.count,
                         builder: (context, value, child) => Text(
-                              "\$ ${widget.items[widget.index].price * widget.items[widget.index].count.value}",
+                              "\$ ${widget.items.price.value * widget.items.count.value}",
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -241,11 +244,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         children: [
                           InkWell(
                             onTap: () {
-                              if (widget.items[widget.index].count.value > 1) {
-                                widget.items[widget.index].count.value--;
-                                debugPrint(widget
-                                    .items[widget.index].count.value
-                                    .toString());
+                              if (widget.items.count.value > 1) {
+                                widget.items.count.value--;
+                                debugPrint(widget.items.count.value.toString());
                               }
                             },
                             child: const Icon(
@@ -254,16 +255,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                             ),
                           ),
                           ValueListenableBuilder(
-                            valueListenable: widget.items[widget.index].count,
+                            valueListenable: widget.items.count,
                             builder: (context, value, child) => Text(
-                              widget.items[widget.index].count.value.toString(),
+                              widget.items.count.value.toString(),
                             ),
                           ),
                           InkWell(
                             onTap: () {
-                              widget.items[widget.index].count.value++;
-                              debugPrint(
-                                  widget.items[widget.index].count.toString());
+                              widget.items.count.value++;
+                              debugPrint(widget.items.count.toString());
                             },
                             child: const Icon(
                               Icons.add,
@@ -274,7 +274,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       ),
                     ),
                     Text(
-                      "${widget.items[widget.index].quantity} mg",
+                      "${widget.items.quantity} mg",
                       style: const TextStyle(fontSize: 15),
                     ),
                   ],
@@ -289,23 +289,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   void _addToCart() {
     setState(() {
-      cartItems.add(
-          // Items(
-          //         imgUrl: widget.items[widget.index].imageurl,
-          //         name: widget.storename,
-          //         quantity: widget.items[widget.index].count.value,
-          //         mg: widget.items[widget.index].quantity,
-          //         price: widget.items[widget.index].price *
-          //             widget.items[widget.index].count.value)
-          {
-            'shopName': widget.storename,
-            'imgUrl': widget.items[widget.index].imageurl,
-            'name': widget.items[widget.index].name,
-            'quantity': widget.items[widget.index].count.value,
-            'mg': widget.items[widget.index].quantity,
-            'price': widget.items[widget.index].price *
-                widget.items[widget.index].count.value
-          });
+      cartItems.add({
+        'categoryindex': widget.listindex,
+        'key': widget.index,
+        'shopName': widget.storename,
+        'maindata': widget.items
+      });
 
       // print(cartItems);
       Navigator.pop(context);
