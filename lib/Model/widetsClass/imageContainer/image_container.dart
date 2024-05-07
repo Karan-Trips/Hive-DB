@@ -31,7 +31,7 @@ class _ImageContainerState extends State<ImageContainer> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 0), () {
       setState(() {
         _isLoading = false;
       });
@@ -89,9 +89,7 @@ class _ImageContainerState extends State<ImageContainer> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CartPage(
-                              cartItems: cartItems,
-                              storeName: widget.storeName),
+                          builder: (context) => const CartPage(),
                         ),
                       );
                     },

@@ -28,6 +28,9 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  flutter_localizations:
+    sdk: flutter
+  intl: any
   bottom_navbar_with_indicator: ^0.0.8
   country_code_picker: ^3.0.0
   cupertino_icons: ^1.0.2
@@ -49,12 +52,10 @@ dependencies:
   localstorage: ^5.0.0
   smooth_page_indicator: ^1.1.0
   elegant_notification: ^2.1.2
-  flutter_gen_runner: ^5.4.0
-  intl_utils: ^2.8.7
+  
 
 dev_dependencies:
-  # hive_generator: 2.0.1
-  # build_runner: ^2.1.11
+
   analyzer: ^6.4.1
   flutter_lints: ^3.0.2
   build_runner: ^2.4.9
@@ -79,6 +80,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   assets:

@@ -3,6 +3,7 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Model/widetsClass/elevatedbutton/elevated_button_class.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({super.key});
@@ -23,7 +24,7 @@ class _OtpPageState extends State<OtpPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Verification Code',
+          AppLocalizations.of(context)!.code,
           style: TextStyle(
               color: Colors.green,
               fontWeight: FontWeight.bold,
@@ -43,7 +44,7 @@ class _OtpPageState extends State<OtpPage> {
                 height: 68.h,
                 child: Text(
                   textAlign: TextAlign.center,
-                  "Verification code has been send on your registered mobile number. Enter Verification code here.",
+                  AppLocalizations.of(context)!.veri,
                   style: TextStyle(
                       fontSize: 14.w,
                       color: Colors.black,

@@ -9,12 +9,12 @@ class MilkProductsPage extends StatefulWidget {
     required this.title,
     required this.items,
     required this.storename,
-    required this.count,
+   
     required this.index,
   });
 
   final String title;
-  final int count;
+ 
   final int index;
   final String storename;
   final List<dynamic> items;

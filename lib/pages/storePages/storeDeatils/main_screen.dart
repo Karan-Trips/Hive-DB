@@ -4,6 +4,7 @@ import 'package:task_27_03/pages/loginscreens/ProfilePage/user_profile.dart';
 import 'package:task_27_03/pages/storePages/storeDeatils/store_main_page.dart';
 
 import '../../../Model/Cart/addtocart.dart';
+import '../../CartItems/cart_items.dart';
 import '../../loginscreens/ProfilePage/edit_profile.dart';
 
 class MainScreenPage extends StatefulWidget {
@@ -97,14 +98,12 @@ class _MainScreenPageState extends State<MainScreenPage>
             children: [
               IconButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => CartPage(
-                  //         cartItems: cartItems,
-                  //         storeName: cartItems[0]['storeName']),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CartPage(),
+                    ),
+                  );
                 },
                 icon: const Icon(Icons.shopping_cart, size: 27.0),
               ),

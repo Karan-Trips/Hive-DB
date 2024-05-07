@@ -1,0 +1,23 @@
+{
+    "@@locale": "hi",
+    "helloWorld": "नमस्ते दुनिया!",
+    "@helloWorld": {
+        "description": "The convential newborn programmer greeting"
+    },
+    "login": "लॉग इन करें",
+    "@login": {
+        "description": "The convential newborn programmer greeting"
+    },
+    "add": "जोड़ना",
+    "@add": {
+        "description": "converted to string"
+    },
+    "code": "सत्यापन कोड",
+    "@code": {
+        "description": "converted to string"
+    },
+    "veri": "आपके पंजीकृत मोबाइल नंबर पर सत्यापन कोड भेज दिया गया है। यहां सत्यापन कोड दर्ज करें.",
+    "@veri": {
+        "description": "converted to string"
+    }
+}

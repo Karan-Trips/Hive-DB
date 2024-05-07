@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Model/widetsClass/textFormFeild/textformfield.dart';
 import '../../gen/assets.gen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MobileLogin extends StatefulWidget {
   const MobileLogin({super.key});
@@ -76,7 +77,7 @@ class MobileLoginState extends State<MobileLogin> {
                         }
                       },
                       child: Text(
-                        "Login",
+                        AppLocalizations.of(context)!.login,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.sp,

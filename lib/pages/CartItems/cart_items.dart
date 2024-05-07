@@ -1,61 +1,72 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../Model/Cart/addtocart.dart';
 import '../../Model/widetsClass/elevatedbutton/elevated_button_class.dart';
 
 class CartPage extends StatefulWidget {
-  final List<Map<String, dynamic>> cartItems;
-  final String storeName;
-
-  const CartPage({super.key, required this.cartItems, required this.storeName});
+  const CartPage({
+    super.key,
+  });
 
   @override
   State<CartPage> createState() => _CartPageState();
 }
 
 class _CartPageState extends State<CartPage> {
-  late double totalPrice = 0.0;
+  late ValueNotifier totalPrice;
 
+  late Map<String, List<Map<String, dynamic>>> itemsByShop;
   @override
   void initState() {
     super.initState();
-    
-    for (var item in widget.cartItems) {
-      double itemTotalPrice =
-          item['maindata'].price.value * item['maindata'].count.value;
-      totalPrice += itemTotalPrice;
+    itemsByShop = {};
+    totalPrice = ValueNotifier(0.00);
+
+    if (cartItems.isNotEmpty) {
+      for (var item in cartItems) {
+        double itemTotalPrice =
+            item['maindata'].price.value * item['maindata'].count.value;
+        totalPrice.value += itemTotalPrice;
+
+        String shopName = item['shopName'];
+        String itemKey = item['key'].toString();
+        String categoryKey = item['categoryindex'].toString();
+        List<Map<String, dynamic>> shopItemList = itemsByShop[shopName] ?? [];
+        if (itemsByShop.containsKey(shopName)) {
+          bool itemExists = shopItemList.any((e) =>
+              e['key'].toString() == itemKey &&
+              e['categoryindex'].toString() == categoryKey);
+          if (!itemExists) {
+            shopItemList.add(item);
+          }
+        } else {
+          itemsByShop[shopName] = [item];
+        }
+      }
+    }
+  }
+
+  void deleteItemFromShop(String shopName, int index) {
+    List<Map<String, dynamic>>? shopItems = itemsByShop[shopName];
+    if (shopItems != null && index >= 0 && index < shopItems.length) {
+      shopItems.removeAt(index);
+
+      cartItems.removeWhere((item) =>
+          item['shopName'] == shopName && item['categoryindex'] == index);
+
+      if (shopItems.isEmpty) {
+        itemsByShop.remove(shopName);
+      }
+
+      setState(() {});
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Map<String, List<Map<String, dynamic>>> itemsByShop = {};
-
-    for (var item in widget.cartItems) {
-      String shopName = item['shopName'];
-      String itemKey = item['key'].toString();
-      String categorykey = item['categoryindex'].toString();
-      List<Map<String, dynamic>> shopItemList = itemsByShop[shopName] ?? [];
-      if (itemsByShop.containsKey(shopName)) {
-        int itemIndex = shopItemList.indexWhere((e) =>
-            e['key'].toString() == itemKey &&
-            e['categoryindex'].toString() ==
-                categorykey); // check the both indexes shopIndex,categoryIndex
-
-        if (itemIndex != -1) {
-          print('nothing');
-        } else {
-          itemsByShop[shopName]!.add(item);
-        }
-      } else {
-        itemsByShop[shopName] = [
-          item
-        ]; //if not able to find the key then make new banyega
-
-        // print(itemsByShop);
-      }
-    }
-
     return Scaffold(
       backgroundColor: const Color(0xffF5F5F5),
       appBar: AppBar(
@@ -91,7 +102,15 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _buildItemsList(Map<String, List<Map<String, dynamic>>> itemsByShop) {
+  Widget _buildItemsList(Map<String, List<Map<String, dynamic>>>? itemsByShop) {
+    if (itemsByShop == null || itemsByShop.isEmpty) {
+      return const Center(
+        child: Text(
+          'No items in the cart',
+          style: TextStyle(fontSize: 16),
+        ),
+      );
+    }
     return Column(
       children: [
         for (String key in itemsByShop.keys)
@@ -128,10 +147,11 @@ class _CartPageState extends State<CartPage> {
                   ),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: itemsByShop[key]!.length,
+                  itemCount: itemsByShop[key]?.length ?? 0,
                   itemBuilder: (context, index) {
-                    var item = itemsByShop[key]![index];
-                    return _buildItemRow(item);
+                    var reversedList = itemsByShop[key]!.reversed.toList();
+                    var item = reversedList[index];
+                    return _buildItemRow(item, index, key);
                   },
                 ),
               ],
@@ -141,7 +161,7 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  Widget _buildItemRow(item) {
+  Widget _buildItemRow(item, index, String key) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -168,7 +188,8 @@ class _CartPageState extends State<CartPage> {
                   ),
                   InkWell(
                     onTap: () {
-                      // deleteItem(shopName, index);
+                      deleteItemFromShop(key, index);
+                      print('deleted');
                     },
                     child: const Icon(
                       Icons.delete_outline,
@@ -202,21 +223,27 @@ class _CartPageState extends State<CartPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      if (item['maindata'].count.value > 0) {
-                        item['maindata'].count.value--;
-                      }
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 23, bottom: 17),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.green,
-                      ),
-                      child: const Icon(
-                        Icons.remove,
-                        color: Colors.white,
+                  ValueListenableBuilder(
+                    valueListenable: totalPrice,
+                    builder: (context, value, child) => InkWell(
+                      onTap: () {
+                        if (item['maindata'].count.value > 0) {
+                          item['maindata'].count.value--;
+
+                          totalPrice.value -= item['maindata'].price.value;
+                          print(totalPrice.value);
+                        }
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 23, bottom: 17),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.green,
+                        ),
+                        child: const Icon(
+                          Icons.remove,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -235,19 +262,25 @@ class _CartPageState extends State<CartPage> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  InkWell(
-                    onTap: () {
-                      item['maindata'].count.value++;
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 23, bottom: 17),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.green,
-                      ),
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
+                  ValueListenableBuilder(
+                    valueListenable: totalPrice,
+                    builder: (context, value, child) => InkWell(
+                      onTap: () {
+                        item['maindata'].count.value++;
+
+                        totalPrice.value += item['maindata'].price.value;
+                        print(totalPrice);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 23, bottom: 17),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.green,
+                        ),
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -264,10 +297,13 @@ class _CartPageState extends State<CartPage> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Elevatedbutton(
-        bgColors: totalPrice > 30 ? Colors.green : const Color(0xffD4D4D4),
-        txt: totalPrice > 30 ? 'Proceed to Checkout' : '\$ 30 Min.to Checkout',
+        bgColors:
+            totalPrice.value > 30 ? Colors.green : const Color(0xffD4D4D4),
+        txt: totalPrice.value > 30
+            ? 'Proceed to Checkout'
+            : '\$ 30 Min.to Checkout',
         onPressed: () {
-          if (totalPrice > 30) {
+          if (totalPrice.value > 30) {
             Navigator.pushNamed(context, "/orderBillingPage",
                 arguments: totalPrice);
           } else {
@@ -280,6 +316,7 @@ class _CartPageState extends State<CartPage> {
   }
 
   Container _buildSubTotalContainer(itemsByShop) {
+    print(totalPrice.value);
     return Container(
       width: double.infinity,
       height: 45.h,
@@ -296,12 +333,15 @@ class _CartPageState extends State<CartPage> {
       ),
       child: Padding(
         padding: const EdgeInsets.only(left: 10, top: 10),
-        child: Text(
-          "Sub Total (${itemsByShop[widget.storeName].length} items) : \$${totalPrice.toStringAsFixed(2)}",
-          style: const TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
+        child: ValueListenableBuilder(
+          valueListenable: totalPrice,
+          builder: (context, value, child) => Text(
+            "Sub Total (${itemsByShop.length} items) : \$${totalPrice.value.toStringAsFixed(2)}",
+            style: const TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
           ),
         ),
       ),

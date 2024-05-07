@@ -1,0 +1,24 @@
+{
+    "@@locale": "en",
+    "helloWorld": "Hello World!",
+    "@helloWorld": {
+        "description": "The conventional newborn programmer greeting"
+    },
+    "login": "Login",
+    "@login": {
+        "description": "Dynamic text obtained from the tax name converted to string"
+    },
+    "add": "Add",
+    "@add": {
+        "description": "converted to string"
+    },
+    "code": "Verification Code",
+    "@code": {
+        "description": "converted to string"
+    },
+    "veri": "Verification code has been send on your registered mobile number. Enter Verification code here.",
+    "@veri": {
+        "description": "converted to string"
+    }
+   
+}

@@ -5,6 +5,7 @@ import '../../../Model/Cart/addtocart.dart';
 import '../../../Model/ReviewClass/review.dart';
 import '../../../Model/widetsClass/card/widgets_class.dart';
 import '../../../Model/widetsClass/reviewPage/widget_review.dart';
+import '../../CartItems/cart_items.dart';
 
 class StoreDetailPage extends StatefulWidget {
   const StoreDetailPage({
@@ -65,7 +66,12 @@ class _StoreDetailPageState extends State<StoreDetailPage>
                     children: [
                       IconButton(
                         onPressed: () {
-                          // print('${storeindex}');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const CartPage(),
+                            ),
+                          );
                         },
                         icon: const Icon(Icons.shopping_cart),
                         color: Colors.white,

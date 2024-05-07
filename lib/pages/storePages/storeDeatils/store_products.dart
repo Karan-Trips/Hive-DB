@@ -94,7 +94,6 @@ class _StoreProductDetailState extends State<StoreProductDetail> {
                                       title: categories[selectedIndex]
                                           .subcategories[index][0]
                                           .name,
-                                      count: count,
                                       index: index),
                                 ),
                               );

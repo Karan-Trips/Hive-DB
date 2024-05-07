@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:task_27_03/Routesetting/route_setting.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,14 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
         designSize: Size(screenwidth, screenheight),
         child: MaterialApp(
+          supportedLocales: const [Locale('en'), Locale('hi')],
+          locale: const Locale('hi'),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

@@ -32,8 +32,8 @@ class _ProfilePageState extends State<ProfilePage> {
     switch (iconName) {
       case "Log-Out":
         SharedPreferences preferences = await SharedPreferences.getInstance();
+        await preferences.clear();
         await preferences.remove('phoneno');
-        // await preferences.clear();
         Navigator.popAndPushNamed(context, '/mobilelogin');
         break;
       case "Manage Address":

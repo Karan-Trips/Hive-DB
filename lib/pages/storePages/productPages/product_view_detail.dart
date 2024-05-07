@@ -313,7 +313,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       context,
       MaterialPageRoute(
         builder: (context) =>
-            CartPage(cartItems: cartItems, storeName: widget.storename),
+            const CartPage(),
       ),
     );
   }
