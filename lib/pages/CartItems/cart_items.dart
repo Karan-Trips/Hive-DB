@@ -189,7 +189,7 @@ class _CartPageState extends State<CartPage> {
                   InkWell(
                     onTap: () {
                       deleteItemFromShop(key, index);
-                      print('deleted');
+                      // print('deleted');
                     },
                     child: const Icon(
                       Icons.delete_outline,
@@ -231,7 +231,7 @@ class _CartPageState extends State<CartPage> {
                           item['maindata'].count.value--;
 
                           totalPrice.value -= item['maindata'].price.value;
-                          print(totalPrice.value);
+                          // print(totalPrice.value);
                         }
                       },
                       child: Container(
@@ -269,7 +269,7 @@ class _CartPageState extends State<CartPage> {
                         item['maindata'].count.value++;
 
                         totalPrice.value += item['maindata'].price.value;
-                        print(totalPrice);
+                        // print(totalPrice);
                       },
                       child: Container(
                         margin: const EdgeInsets.only(right: 23, bottom: 17),
@@ -296,27 +296,30 @@ class _CartPageState extends State<CartPage> {
   Padding _buildElevatedButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
-      child: Elevatedbutton(
-        bgColors:
-            totalPrice.value > 30 ? Colors.green : const Color(0xffD4D4D4),
-        txt: totalPrice.value > 30
-            ? 'Proceed to Checkout'
-            : '\$ 30 Min.to Checkout',
-        onPressed: () {
-          if (totalPrice.value > 30) {
-            Navigator.pushNamed(context, "/orderBillingPage",
-                arguments: totalPrice);
-          } else {
-            debugPrint('check the amount ');
-          }
-        },
-        padding: EdgeInsets.symmetric(horizontal: 80.w, vertical: 15.h),
+      child: ValueListenableBuilder(
+        valueListenable: totalPrice,
+        builder: (context, value, child) => Elevatedbutton(
+          bgColors:
+              totalPrice.value > 30 ? Colors.green : const Color(0xffD4D4D4),
+          txt: totalPrice.value > 30
+              ? 'Proceed to Checkout'
+              : '\$ 30 Min.to Checkout',
+          onPressed: () {
+            if (totalPrice.value > 30) {
+              Navigator.pushNamed(context, "/orderBillingPage",
+                  arguments: totalPrice.value);
+            } else {
+              debugPrint('check the amount ');
+            }
+          },
+          padding: EdgeInsets.symmetric(horizontal: 80.w, vertical: 15.h),
+        ),
       ),
     );
   }
 
   Container _buildSubTotalContainer(itemsByShop) {
-    print(totalPrice.value);
+    // print(totalPrice.value);
     return Container(
       width: double.infinity,
       height: 45.h,
