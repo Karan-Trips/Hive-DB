@@ -1,6 +1,7 @@
 class Data {
   final String image;
   final String title;
+  
 
   Data({required this.image, required this.title});
 }

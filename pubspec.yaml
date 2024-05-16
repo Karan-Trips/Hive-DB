@@ -35,6 +35,8 @@ dependencies:
   country_code_picker: ^3.0.0
   cupertino_icons: ^1.0.2
   dotted_border: ^2.1.0
+  flutter_chat_ui: ^1.6.12
+  font_awesome_flutter: ^10.7.0
   flutter:
     sdk: flutter
   flutter_cube: ^0.1.1
@@ -51,7 +53,9 @@ dependencies:
   shared_preferences: ^2.2.3
   localstorage: ^5.0.0
   smooth_page_indicator: ^1.1.0
+  custom_clippers: ^2.0.0
   elegant_notification: ^2.1.2
+  
   
 
 dev_dependencies:
@@ -69,10 +73,13 @@ flutter_native_splash:
   image: assets/images/splash.png
   android: true
   ios: true
+  web: true
+  android_gravity: center
 
   android_12:
     image: assets/images/splash.png
     color: "#ffffff"
+    
 
 # The following section is specific to Flutter packages.
 flutter:

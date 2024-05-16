@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:task_27_03/pages/loginscreens/mobile_login.dart';
 
@@ -23,23 +22,23 @@ class _GetStartedState extends State<GetStarted> {
 
   @override
   void initState() {
-    redirectCheck();
+    // redirectCheck();
     controller = PageController();
     super.initState();
   }
 
-  Future redirectCheck() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('phoneno');
+  // Future redirectCheck() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? token = prefs.getString('phoneno');
 
-    await Future.delayed(const Duration(seconds: 0));
+  //   await Future.delayed(const Duration(seconds: 0));
 
-    if (token != null && token.isNotEmpty) {
-      Navigator.pushReplacementNamed(context, '/mainscreen');
-    } else {
-      Navigator.pushReplacementNamed(context, '/mobilelogin');
-    }
-  }
+  //   if (token != null && token.isNotEmpty) {
+  //     Navigator.pushReplacementNamed(context, '/mainscreen');
+  //   } else {
+  //     Navigator.pushReplacementNamed(context, '/mobilelogin');
+  //   }
+  // }
 
   @override
   void dispose() {

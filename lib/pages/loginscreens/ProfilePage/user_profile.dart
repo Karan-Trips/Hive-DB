@@ -51,6 +51,8 @@ class _ProfilePageState extends State<ProfilePage> {
             builder: (context) => const NotificationPage(),
           ),
         );
+      case "Recent Chat":
+        Navigator.pushNamed(context, '/storeChat');
         break;
       default:
         break;

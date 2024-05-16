@@ -54,7 +54,7 @@ class _DetailsPageState extends State<DetailsPage> {
   void saveFormData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var sharedPrefData = prefs.getString('phoneno');
-    debugPrint(sharedPrefData.toString());
+    // debugPrint(sharedPrefData.toString());
     if (formKey.currentState!.validate()) {
       // var box = await Hive.openBox('user_data');//HIVE DB
 

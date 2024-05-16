@@ -7,6 +7,7 @@ import '../pages/loginscreens/mobile_login.dart';
 import '../pages/loginscreens/otp_page.dart';
 import '../pages/orderPages/manage_paymets.dart';
 import '../pages/orderPages/place_order.dart';
+import '../pages/storePages/chatPage/chat_screen.dart';
 import '../pages/storePages/storeDeatils/main_screen.dart';
 import '../pages/storePages/storeDeatils/store_details.dart';
 import '../pages/storePages/storeDeatils/store_products.dart';
@@ -30,6 +31,9 @@ class RouteManager {
       case '/edit_user_address':
         return MaterialPageRoute(
             builder: (_) => const EditUserAddress(), settings: settings);
+      case '/storeChat':
+        return MaterialPageRoute(
+            builder: (_) => const ChatScreen(), settings: settings);
       case '/storeDetailpage':
         return MaterialPageRoute(
             builder: (_) => const StoreDetailPage(), settings: settings);
